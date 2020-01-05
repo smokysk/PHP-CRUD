@@ -5,25 +5,24 @@
 
     if(isset($_GET['id']) && !empty($_GET['id'])){
         $id = stripslashes($_GET['id']);
-    } 
+    }
 
-    if(isset($_POST['nome']) && empty($_POST['nome'])){
+    if(isset($_POST['nome']) && !empty($_POST['nome'])){
         $nome = stripslashes($_POST['nome']);
-
+        
+        
         $query = $pdo->prepare("UPDATE usuarios SET nome = :nome WHERE id = :id");
         $query->execute([
             'id' => $id,
             'nome' => $nome
         ]);
-        
-        header("Location: index.php");
 
-    }
-    
-    $query = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
-    $query->execute([
-        'id' => $id
-    ]);
+        header("Location: index.php");
+    }    
+$query = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
+$query->execute([
+    'id' => $id
+]);
 
     if($query->rowCount() > 0) {
         $dado = $query->fetch();
