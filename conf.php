@@ -5,7 +5,7 @@
 
    try {
        $pdo = new PDO($dsn,$dbuser, $dbpass);
-       $sql = $pdo->query($sql);
+       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
        //code...
    } catch (PDOexception $e) {

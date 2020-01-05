@@ -2,18 +2,24 @@
     require 'conf.php';
 
     if (isset($_POST['nome']) && empty($_POST['nome'])==false) {
-        $nome = addcslashes($_POST['nome']);
-        $email = addcslashes($_POST['email']);
-        $senha = md5(addcslashes($_POST['senha']));
+        $nome = stripslashes($_POST['nome']);
+        $email = stripslashes($_POST['email']);
+        $senha = md5(stripslashes($_POST['senha']));
 
-        $sql = "INSERT INTO usuarios(nome,email,senha) VALUES('$nome','$email','$senha')";
-        $sql = $pdo->query($sql);
+        $query = $pdo->prepare("INSERT INTO usuarios(nome,email,senha) VALUES(:nome, :email, :senha)");
+        $query->execute([
+             'nome' => $nome,
+             'email' => $email,
+             'senha' => $senha
+        ]); 
+
+        // $sql = "INSERT INTO usuarios(nome,email,senha) VALUES('$nome','$email','$senha')";
+        // $sql = $pdo->query($sql);
 
         header("Location: index.php");
    
-    }
-    else{
-        echo "ERROR";
+    } else { 
+        
     }
 
 ?>
